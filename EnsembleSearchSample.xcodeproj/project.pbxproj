@@ -9,13 +9,20 @@
 /* Begin PBXBuildFile section */
 		61A95EAC2B621EF50077C541 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EAB2B621EF50077C541 /* AppDelegate.swift */; };
 		61A95EAE2B621EF50077C541 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EAD2B621EF50077C541 /* SceneDelegate.swift */; };
-		61A95EB02B621EF50077C541 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EAF2B621EF50077C541 /* ViewController.swift */; };
+		61A95EB02B621EF50077C541 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EAF2B621EF50077C541 /* SearchViewController.swift */; };
 		61A95EB32B621EF50077C541 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A95EB12B621EF50077C541 /* Main.storyboard */; };
 		61A95EB52B621EF60077C541 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A95EB42B621EF60077C541 /* Assets.xcassets */; };
 		61A95EB82B621EF60077C541 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A95EB62B621EF60077C541 /* LaunchScreen.storyboard */; };
 		61A95EC32B621EF70077C541 /* EnsembleSearchSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EC22B621EF70077C541 /* EnsembleSearchSampleTests.swift */; };
 		61A95ECD2B621EF70077C541 /* EnsembleSearchSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95ECC2B621EF70077C541 /* EnsembleSearchSampleUITests.swift */; };
 		61A95ECF2B621EF70077C541 /* EnsembleSearchSampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95ECE2B621EF70077C541 /* EnsembleSearchSampleUITestsLaunchTests.swift */; };
+		61A95EE12B621F5F0077C541 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EE02B621F5F0077C541 /* SearchViewModel.swift */; };
+		61A95EE52B621F7F0077C541 /* ApiServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EE42B621F7F0077C541 /* ApiServiceProtocol.swift */; };
+		61A95EE72B621F9B0077C541 /* ApiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EE62B621F9B0077C541 /* ApiModels.swift */; };
+		61A95EE92B621FEF0077C541 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EE82B621FEF0077C541 /* ApiService.swift */; };
+		61A95EEC2B6220820077C541 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EEB2B6220820077C541 /* AppConfig.swift */; };
+		61A95EF02B6223100077C541 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EEF2B6223100077C541 /* Data+Extension.swift */; };
+		61A95EF32B6226DB0077C541 /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A95EF22B6226DB0077C541 /* JsonManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +46,7 @@
 		61A95EA82B621EF50077C541 /* EnsembleSearchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnsembleSearchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A95EAB2B621EF50077C541 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61A95EAD2B621EF50077C541 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		61A95EAF2B621EF50077C541 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		61A95EAF2B621EF50077C541 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		61A95EB22B621EF50077C541 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		61A95EB42B621EF60077C541 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61A95EB72B621EF60077C541 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +56,14 @@
 		61A95EC82B621EF70077C541 /* EnsembleSearchSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnsembleSearchSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A95ECC2B621EF70077C541 /* EnsembleSearchSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleSearchSampleUITests.swift; sourceTree = "<group>"; };
 		61A95ECE2B621EF70077C541 /* EnsembleSearchSampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnsembleSearchSampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		61A95EE02B621F5F0077C541 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		61A95EE42B621F7F0077C541 /* ApiServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiServiceProtocol.swift; sourceTree = "<group>"; };
+		61A95EE62B621F9B0077C541 /* ApiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiModels.swift; sourceTree = "<group>"; };
+		61A95EE82B621FEF0077C541 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		61A95EEB2B6220820077C541 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		61A95EED2B6220EB0077C541 /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dev.xcconfig; sourceTree = "<group>"; };
+		61A95EEF2B6223100077C541 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		61A95EF22B6226DB0077C541 /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +114,11 @@
 		61A95EAA2B621EF50077C541 /* EnsembleSearchSample */ = {
 			isa = PBXGroup;
 			children = (
+				61A95EDC2B621F190077C541 /* Resources */,
+				61A95EDB2B621F130077C541 /* Common */,
+				61A95EDE2B621F2F0077C541 /* Modules */,
 				61A95EAB2B621EF50077C541 /* AppDelegate.swift */,
 				61A95EAD2B621EF50077C541 /* SceneDelegate.swift */,
-				61A95EAF2B621EF50077C541 /* ViewController.swift */,
-				61A95EB12B621EF50077C541 /* Main.storyboard */,
-				61A95EB42B621EF60077C541 /* Assets.xcassets */,
-				61A95EB62B621EF60077C541 /* LaunchScreen.storyboard */,
 				61A95EB92B621EF60077C541 /* Info.plist */,
 			);
 			path = EnsembleSearchSample;
@@ -125,6 +139,95 @@
 				61A95ECE2B621EF70077C541 /* EnsembleSearchSampleUITestsLaunchTests.swift */,
 			);
 			path = EnsembleSearchSampleUITests;
+			sourceTree = "<group>";
+		};
+		61A95EDB2B621F130077C541 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EEE2B6223030077C541 /* Extensions */,
+				61A95EE22B621F6A0077C541 /* Services */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		61A95EDC2B621F190077C541 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EB42B621EF60077C541 /* Assets.xcassets */,
+				61A95EDD2B621F220077C541 /* Storyboards */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		61A95EDD2B621F220077C541 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EB62B621EF60077C541 /* LaunchScreen.storyboard */,
+				61A95EB12B621EF50077C541 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		61A95EDE2B621F2F0077C541 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EDF2B621F350077C541 /* Search */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		61A95EDF2B621F350077C541 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EAF2B621EF50077C541 /* SearchViewController.swift */,
+				61A95EE02B621F5F0077C541 /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		61A95EE22B621F6A0077C541 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EF12B6226C30077C541 /* Json */,
+				61A95EEA2B62207A0077C541 /* Config */,
+				61A95EE32B621F6F0077C541 /* API */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		61A95EE32B621F6F0077C541 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EE42B621F7F0077C541 /* ApiServiceProtocol.swift */,
+				61A95EE62B621F9B0077C541 /* ApiModels.swift */,
+				61A95EE82B621FEF0077C541 /* ApiService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		61A95EEA2B62207A0077C541 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EEB2B6220820077C541 /* AppConfig.swift */,
+				61A95EED2B6220EB0077C541 /* dev.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		61A95EEE2B6223030077C541 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EEF2B6223100077C541 /* Data+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		61A95EF12B6226C30077C541 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				61A95EF22B6226DB0077C541 /* JsonManager.swift */,
+			);
+			name = Json;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +361,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61A95EB02B621EF50077C541 /* ViewController.swift in Sources */,
+				61A95EE72B621F9B0077C541 /* ApiModels.swift in Sources */,
+				61A95EEC2B6220820077C541 /* AppConfig.swift in Sources */,
+				61A95EB02B621EF50077C541 /* SearchViewController.swift in Sources */,
+				61A95EE52B621F7F0077C541 /* ApiServiceProtocol.swift in Sources */,
 				61A95EAC2B621EF50077C541 /* AppDelegate.swift in Sources */,
+				61A95EE12B621F5F0077C541 /* SearchViewModel.swift in Sources */,
+				61A95EE92B621FEF0077C541 /* ApiService.swift in Sources */,
+				61A95EF32B6226DB0077C541 /* JsonManager.swift in Sources */,
 				61A95EAE2B621EF50077C541 /* SceneDelegate.swift in Sources */,
+				61A95EF02B6223100077C541 /* Data+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +428,7 @@
 /* Begin XCBuildConfiguration section */
 		61A95ED02B621EF70077C541 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -381,6 +492,7 @@
 		};
 		61A95ED12B621EF70077C541 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -437,6 +549,7 @@
 		};
 		61A95ED32B621EF70077C541 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -465,6 +578,7 @@
 		};
 		61A95ED42B621EF70077C541 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -493,6 +607,7 @@
 		};
 		61A95ED62B621EF70077C541 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -513,6 +628,7 @@
 		};
 		61A95ED72B621EF70077C541 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -533,6 +649,7 @@
 		};
 		61A95ED92B621EF70077C541 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -551,6 +668,7 @@
 		};
 		61A95EDA2B621EF70077C541 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A95EED2B6220EB0077C541 /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

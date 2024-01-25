@@ -1,0 +1,15 @@
+//
+//  dev.xcconfig
+//  EnsembleSearchSample
+//
+//  Created by Marko Polietaiev on 2024-01-24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+
+// IMPORTANT! This file NORMALLY should not be added to the source control.
+API_BASE_URL=www.omdbapi.com
+API_KEY=931905a0
