@@ -30,6 +30,40 @@ extension UIView {
         }
     }
     
+    func addActivityIndicator() {
+        removeActivityIndicator()
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        containerView.layer.cornerRadius = 15
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = .lightGray
+        containerView.alpha = 0.5
+        containerView.tag = 101
+        
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(activityIndicator)
+        addSubview(containerView)
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            
+            containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50),
+            containerView.widthAnchor.constraint(equalToConstant: 30),
+            containerView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        activityIndicator.startAnimating()
+    }
+    
+    func removeActivityIndicator() {
+        if let activityIndicator = viewWithTag(101) {
+            activityIndicator.removeFromSuperview()
+        }
+    }
+    
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         let maskPath = UIBezierPath(
             roundedRect: bounds,

@@ -41,21 +41,32 @@
                         <color key="textColor" red="0.40000000000000002" green="0.43921568630000002" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6K-hm-Ixh">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="185"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <connections>
+                            <action selector="buttonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="X2M-bJ-Z6g"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="b6K-hm-Ixh" secondAttribute="bottom" id="3UY-zv-Ztg"/>
                     <constraint firstItem="DBk-VL-PtT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3qg-Nx-lBV"/>
                     <constraint firstItem="6es-iQ-qcs" firstAttribute="leading" secondItem="DBk-VL-PtT" secondAttribute="trailing" constant="10" id="82I-Bn-VHF"/>
                     <constraint firstItem="DBk-VL-PtT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="BTF-NM-8JF"/>
                     <constraint firstItem="PyX-GO-d1b" firstAttribute="leading" secondItem="DBk-VL-PtT" secondAttribute="trailing" constant="10" id="C9T-T2-lGr"/>
+                    <constraint firstAttribute="trailing" secondItem="b6K-hm-Ixh" secondAttribute="trailing" id="E72-4C-h7D"/>
                     <constraint firstItem="PyX-GO-d1b" firstAttribute="top" secondItem="DBk-VL-PtT" secondAttribute="top" id="E7r-0C-AUm"/>
                     <constraint firstItem="6es-iQ-qcs" firstAttribute="bottom" secondItem="DBk-VL-PtT" secondAttribute="bottom" id="Kjd-Fa-iDr"/>
                     <constraint firstItem="6es-iQ-qcs" firstAttribute="top" secondItem="0ZI-bf-AmD" secondAttribute="bottom" constant="5" id="NRj-FD-fbT"/>
+                    <constraint firstItem="b6K-hm-Ixh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WMr-0R-eY1"/>
                     <constraint firstItem="0ZI-bf-AmD" firstAttribute="leading" secondItem="DBk-VL-PtT" secondAttribute="trailing" constant="10" id="XRJ-P2-uHE"/>
                     <constraint firstItem="DBk-VL-PtT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="bVN-Bi-it6"/>
                     <constraint firstAttribute="bottom" secondItem="DBk-VL-PtT" secondAttribute="bottom" constant="15" id="inf-3R-7GC"/>
                     <constraint firstAttribute="trailing" secondItem="0ZI-bf-AmD" secondAttribute="trailing" constant="15" id="ive-bA-Kkf"/>
                     <constraint firstAttribute="trailing" secondItem="6es-iQ-qcs" secondAttribute="trailing" constant="15" id="lJH-rC-Dfq"/>
                     <constraint firstAttribute="trailing" secondItem="PyX-GO-d1b" secondAttribute="trailing" constant="15" id="mVq-mp-AUR"/>
+                    <constraint firstItem="b6K-hm-Ixh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ncv-PN-SfO"/>
                     <constraint firstItem="0ZI-bf-AmD" firstAttribute="top" secondItem="PyX-GO-d1b" secondAttribute="bottom" constant="10" id="th8-ba-Hzn"/>
                 </constraints>
             </tableViewCellContentView>

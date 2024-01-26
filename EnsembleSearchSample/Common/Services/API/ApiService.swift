@@ -99,10 +99,10 @@ class ApiService {
                 if let error = error {
                     if !hasInternetConnection() {
                         // No internet connection
-                        completion(nil, NetworkError.noConnection)
+                        completion(nil, APIError.noConnection)
                     } else if error._code == NSURLErrorTimedOut {
                         // Request timed out
-                        completion(nil, NetworkError.timeout)
+                        completion(nil, APIError.timeout)
                     } else if error._code == NSURLErrorCancelled {
                         // Request canceled
                         completion(nil, nil)
@@ -217,7 +217,12 @@ extension ApiService: ApiServiceProtocol {
                     let response = try JsonManager.decode(SearchResponse.self, from: data)
                     completion(.success(response))
                 } catch {
-                    completion(.failure(error))
+                    do {
+                        let errorResponse = try JsonManager.decode(ErrorResponse.self, from: data)
+                        completion(.failure(APIError.errorResponse(message: errorResponse.error)))
+                    } catch {
+                        completion(.failure(error))
+                    }
                 }
             }
         }

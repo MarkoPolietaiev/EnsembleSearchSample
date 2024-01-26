@@ -47,6 +47,7 @@ extension SearchViewController: UITableViewDataSource {
         if let movie = viewModel?.movie(at: indexPath.row) {
             cell?.configure(with: movie)
         }
+        cell?.delegate = self
         return cell ?? UITableViewCell()
     }
 }
@@ -73,6 +74,8 @@ extension SearchViewController: UITableViewDelegate {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        clearTable()
+        tableView.addActivityIndicator()
         viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
             guard let self = self else { return }
             self.handleAPIResult(result: result)
@@ -84,6 +87,13 @@ extension SearchViewController: UISearchBarDelegate {
         view.endEditing(true)
     }
     
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (searchBar.text as? NSString)?.replacingCharacters(in: range, with: text)
+        let characterLimit = 255
+        // Check if the new length exceeds the character limit
+        return (newText?.count ?? 256) <= characterLimit
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard !searchText.isEmpty else {
             viewModel?.clear()
@@ -92,6 +102,10 @@ extension SearchViewController: UISearchBarDelegate {
         }
         // add debounce to avoid multiple requests
         debouncer.debounce { [weak self] in
+            DispatchQueue.main.async {
+                self?.clearTable()
+                self?.tableView.addActivityIndicator()
+            }
             self?.viewModel?.search(query: searchText) { [weak self] result in
                 guard let self = self else { return }
                 self.handleAPIResult(result: result)
@@ -112,6 +126,7 @@ private extension SearchViewController {
     }
     
     func handleAPIResult(result: Result<SearchResponse, Error>) {
+        tableView.removeActivityIndicator()
         switch result {
         case .success(_):
             // Handle successful result
@@ -120,12 +135,26 @@ private extension SearchViewController {
             handleAPIError(error)
         }
     }
+    
+    func clearTable() {
+        viewModel?.clear()
+        tableView.reloadData()
+    }
+}
+
+extension SearchViewController: SearchResultTableViewCellDelegate {
+    func didTapButton(movie: Movie) {
+        print(movie.title)
+        print("Button that does nothing :)")
+    }
 }
 
 extension SearchViewController: FilterViewControllerDelegate {
     func didSaveNewFilter(year: Int?, type: MovieType?) {
         viewModel?.setYear(year)
         viewModel?.setType(type)
+        clearTable()
+        tableView.addActivityIndicator()
         viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
             guard let self = self else { return }
             self.handleAPIResult(result: result)

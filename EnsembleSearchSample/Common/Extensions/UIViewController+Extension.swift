@@ -32,12 +32,14 @@ extension UIViewController {
     
     func handleAPIError(_ error: Error) {
         // Check for specific errors, such as network connectivity issues
-        if let apiError = error as? NetworkError {
+        if let apiError = error as? APIError {
             switch apiError {
             case .noConnection:
                 showErrorToast(R.string.localizable.errorNoConnection())
             case .timeout:
                 showErrorToast(R.string.localizable.errorRequestTimedOut())
+            case .errorResponse(message: let message):
+                showErrorToast(message)
             }
         } else {
             // Handle other non-API errors

@@ -8,11 +8,17 @@
 import Foundation
 
 enum APIError: Error {
-    case invalidResponse
-    case unauthorized
-}
-
-enum NetworkError: Error {
+    case errorResponse(message: String)
     case noConnection
     case timeout
+}
+
+struct ErrorResponse: Decodable {
+    var error: String
+    var response: String
+    
+    enum CodingKeys: String, CodingKey {
+        case error = "Error"
+        case response = "Response"
+    }
 }
