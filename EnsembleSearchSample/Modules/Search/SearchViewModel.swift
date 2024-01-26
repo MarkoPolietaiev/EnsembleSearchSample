@@ -23,33 +23,30 @@ class SearchViewModel {
         self.apiService = apiService
     }
     
-    func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        searchRequest.query = query
-        apiService.search(requestParameters: searchRequest) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let response):
-                self.movies = response.search
-                self.totalResults = Int(response.totalResults) ?? 0
-                completion(.success(response))
-            case .failure(let error):
-                completion(.failure(error))
+    func search(query: String = "", isPagination: Bool = false, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+        var request = searchRequest
+        if isPagination {
+            guard movies.count < totalResults else {
+                completion(.failure(NSError(domain: "No more movies", code: 0, userInfo: nil)))
+                return
             }
+            request.pageNumber += 1
+        } else {
+            request.query = query
+            request.pageNumber = 1
         }
-    }
-    
-    func loadMore(completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        guard movies.count < totalResults else {
-            completion(.failure(NSError(domain: "No more movies", code: 0, userInfo: nil)))
-            return
-        }
-        let newRequest = SearchRequest(query: searchRequest.query, pageNumber: searchRequest.pageNumber + 1, year: searchRequest.year, type: searchRequest.type)
-        apiService.search(requestParameters: newRequest) { [weak self] result in
+        
+        apiService.search(requestParameters: request) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.searchRequest = newRequest
-                self.movies.append(contentsOf: response.search)
+                self.searchRequest = request
+                if isPagination {
+                    self.movies.append(contentsOf: response.search)
+                } else {
+                    self.movies = response.search
+                    self.totalResults = Int(response.totalResults) ?? 0
+                }
                 completion(.success(response))
             case .failure(let error):
                 completion(.failure(error))

@@ -35,9 +35,11 @@ class SearchViewController: UIViewController {
     }
 }
 
+// MARK: UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = viewModel?.moviesCount() ?? 0
+        // Show no data view if there is no items
         count == 0 ? tableView.addNoDataView() : tableView.removeNoDataView()
         return count
     }
@@ -52,6 +54,7 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
+// MARK: UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
@@ -63,8 +66,9 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let viewModel else { return }
+        // if cell is last one and there are more items to load, load more
         if viewModel.hasMore, indexPath.row == viewModel.moviesCount() - 1 {
-            viewModel.loadMore { [weak self] result in
+            viewModel.search(isPagination: true) { [weak self] result in
                 guard let self = self else { return }
                 self.handleAPIResult(result: result)
             }
@@ -72,6 +76,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
+// MARK: SearchViewModelDelegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         clearTable()
@@ -114,6 +119,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: Private methods
 private extension SearchViewController {
     func setupViewModel() {
         viewModel = SearchViewModel(apiService: ApiService())
@@ -142,6 +148,7 @@ private extension SearchViewController {
     }
 }
 
+// MARK: SearchResultTableViewCellDelegate
 extension SearchViewController: SearchResultTableViewCellDelegate {
     func didTapButton(movie: Movie) {
         print(movie.title)
@@ -149,6 +156,7 @@ extension SearchViewController: SearchResultTableViewCellDelegate {
     }
 }
 
+// MARK: FilterViewControllerDelegate
 extension SearchViewController: FilterViewControllerDelegate {
     func didSaveNewFilter(year: Int?, type: MovieType?) {
         viewModel?.setYear(year)
