@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  EnsembleSearchSample
+
+  Created by Marko Polietaiev on 2024-01-25.
+  
+*/
+
+"error.no.connection" = "No Internet Connection";
+"error.something.went.wrong" = "Something went wrong";
+"error.request.timed.out" = "Request timed out";

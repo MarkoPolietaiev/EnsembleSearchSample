@@ -10,10 +10,9 @@ import Foundation
 class AppConfig {
     
     private func getConfigFor(key: String) -> String {
-        guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
-            let config = NSDictionary(contentsOfFile: path) as? [String: String],
-            let value = config[key] else {
-                fatalError("Config file not found")
+        guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
+            let value = NSDictionary(contentsOfFile: path)?[key] as? String else {
+                return ""
         }
         return value
     }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ApiServiceProtocol {
-    func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void)
+    func search(query: String, pageNumber: Int, year: Int?, type: MovieTypeEnum?, completion: @escaping (Result<SearchResponse, Error>) -> Void)
 }

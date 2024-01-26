@@ -6,10 +6,9 @@
 //
 
 import Foundation
+import Network
 
 class ApiService {
-    
-    static let shared = ApiService()
     
     private let baseUrl: String = AppConfig.apiBaseUrl
     
@@ -34,6 +33,9 @@ class ApiService {
     private enum ParameterType: String {
         case apiKey
         case searchQuery = "s"
+        case year = "y"
+        case type
+        case page
     }
     
     enum ContentType: String {
@@ -42,9 +44,26 @@ class ApiService {
     
     private var activeTasks: [URLSessionDataTask] = []
     
-    private func request(type: RequestType, endpoint: EndpointType? = nil, parameters: [ParameterType: Any] = [:], encodedBody: Data? = nil, contentType: ContentType = .json, completion: @escaping (Data?, Error?) -> Void) {
+    private func request(type: RequestType, endpoint: EndpointType? = nil, parameters: [ParameterType: Any] = [:], contentType: ContentType = .json, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = baseUrl + (endpoint?.rawValue ?? "")
-        guard let url = URL(string: urlString) else {
+        guard var urlComponents = URLComponents(string: urlString) else {
+            completion(nil, nil)
+            return
+        }
+
+        // Convert parameters to URL query items
+        var queryItems: [URLQueryItem] = []
+        for (key, value) in parameters {
+            let queryItem = URLQueryItem(name: key.rawValue, value: "\(value)")
+            queryItems.append(queryItem)
+        }
+        
+        // Add API key
+        queryItems.append(URLQueryItem(name: ParameterType.apiKey.rawValue, value: AppConfig.apiKey))
+
+        urlComponents.queryItems = queryItems
+
+        guard let url = urlComponents.url else {
             completion(nil, nil)
             return
         }
@@ -52,17 +71,6 @@ class ApiService {
         var request = URLRequest(url: url)
         request.httpMethod = type.rawValue
         request.setValue(contentType.rawValue, forHTTPHeaderField: "Content-Type")
-
-        // Add Authorization header with bearer token if useToken is true
-        var parameters = parameters
-        parameters[.apiKey] = AppConfig.apiKey
-
-        if !parameters.isEmpty {
-            let jsonData = try? JSONSerialization.data(withJSONObject: convertParametersDictionary(originalDict: parameters))
-            request.httpBody = jsonData
-        } else if let encodedBody {
-            request.httpBody = encodedBody
-        }
 
         // Set timeout interval for the request (60 seconds)
         request.timeoutInterval = 60
@@ -78,26 +86,42 @@ class ApiService {
     }
 
     private func performRequest(request: URLRequest, maxRetries: Int, currentRetry: Int, completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
-        var task: URLSessionDataTask!  // Declare task as an implicitly unwrapped optional
+        var task: URLSessionDataTask?  // Declare task as an implicitly unwrapped optional
 
         task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let self = self else { return }
-            print("API Request ---> " + (request.url?.path() ?? "") + (request.httpBody?.prettyPrintedJSONString ?? ""))
-            DispatchQueue.main.async {
+            guard let self else { return }
+
+            print("API Request ---> " + (request.url?.path ?? "") + (request.url?.query ?? ""))
+
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
                 if let error = error {
-                    if currentRetry < maxRetries {
-                        // Implement a backoff strategy
-                        let delay = pow(2.0, Double(currentRetry))
-                        print("API Request ---> " + (request.url?.path() ?? "") + " | Retry \(currentRetry + 1) of \(maxRetries) in \(delay) seconds")
-                        DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
-                            // Check if the task has been canceled before retrying
-                            if task.state != .completed && task.state != .canceling {
-                                let _ = self.performRequest(request: request, maxRetries: maxRetries, currentRetry: currentRetry + 1, completion: completion)
-                            }
-                        }
+                    if !hasInternetConnection() {
+                        // No internet connection
+                        completion(nil, NetworkError.noConnection)
+                    } else if error._code == NSURLErrorTimedOut {
+                        // Request timed out
+                        completion(nil, NetworkError.timeout)
+                    } else if error._code == NSURLErrorCancelled {
+                        // Request canceled
+                        completion(nil, nil)
                     } else {
-                        // Max retries reached, return the error
-                        completion(nil, error)
+                        if currentRetry < maxRetries {
+                            // Implement a backoff strategy
+                            let delay = pow(2.0, Double(currentRetry))
+                            print("API Request ---> " + (request.url?.path ?? "") + " | Retry \(currentRetry + 1) of \(maxRetries) in \(delay) seconds")
+                            
+                            DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                                // Check if the task has been canceled before retrying
+                                if task?.state != .completed && task?.state != .canceling {
+                                    _ = self.performRequest(request: request, maxRetries: maxRetries, currentRetry: currentRetry + 1, completion: completion)
+                                }
+                            }
+                        } else {
+                            // Max retries reached, return the error
+                            completion(nil, error)
+                        }
                     }
                 } else {
                     // Request successful, return data
@@ -105,16 +129,22 @@ class ApiService {
                 }
 
                 // Remove the task from the active tasks array
-                if let index = self.activeTasks.firstIndex(of: task) {
+                if let task, let index = self.activeTasks.firstIndex(of: task) {
                     self.activeTasks.remove(at: index)
                 }
             }
         }
-        cancelRequest(task)
-        task.resume()
-        activeTasks.append(task)
-        return task
+
+        if let task = task {
+            cancelRequest(task)
+            task.resume()
+            activeTasks.append(task)
+            return task
+        } else {
+            fatalError("URLSessionDataTask is nil.")
+        }
     }
+
     
     private func convertParametersDictionary(originalDict: [ParameterType: Any]) -> [String: Any] {
         var newDictionary: [String: Any] = [:]
@@ -130,9 +160,10 @@ class ApiService {
     }
 
     // Cancel a specific request
-    func cancelRequest(_ task: URLSessionDataTask) {
+    private func cancelRequest(_ task: URLSessionDataTask) {
         if let index = activeTasks.firstIndex(of: task) {
             print("Cancelling request ---> \(task.originalRequest?.url?.path() ?? "")")
+            task.cancel()
             activeTasks[index].cancel()
             activeTasks.remove(at: index)
         }
@@ -143,11 +174,42 @@ class ApiService {
         activeTasks.forEach { $0.cancel() }
         activeTasks.removeAll()
     }
+    
+    private func hasInternetConnection() -> Bool {
+        let monitor = NWPathMonitor()
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        var isConnected = false
+
+        monitor.pathUpdateHandler = { path in
+            isConnected = path.status == .satisfied
+            semaphore.signal()
+        }
+
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.start(queue: queue)
+
+        // Wait for the asynchronous pathUpdateHandler to be called
+        _ = semaphore.wait(timeout: .now() + 1)
+
+        return isConnected
+    }
 }
 
 extension ApiService: ApiServiceProtocol {
-    func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        request(type: .get, parameters: [.searchQuery: query]) { data, error in
+    func search(query: String, pageNumber: Int = 1, year: Int? = nil, type: MovieTypeEnum? = nil, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+        var parameters: [ParameterType: Any] = [
+            .searchQuery: query,
+            .page: pageNumber
+        ]
+        if let year {
+            parameters[.year] = year
+        }
+        if let type {
+            parameters[.type] = type.rawValue
+        }
+        request(type: .get, parameters: parameters) { data, error in
             if let error {
                 completion(.failure(error))
             } else if let data = data {
