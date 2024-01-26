@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Debouncer class used to debounce user input.
 class Debouncer {
     private let interval: TimeInterval
     private var timer: Timer?

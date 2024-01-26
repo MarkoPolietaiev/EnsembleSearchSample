@@ -198,15 +198,15 @@ class ApiService {
 }
 
 extension ApiService: ApiServiceProtocol {
-    func search(query: String, pageNumber: Int = 1, year: Int? = nil, type: MovieType? = nil, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+    func search(requestParameters: SearchRequest, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         var parameters: [ParameterType: Any] = [
-            .searchQuery: query,
-            .page: pageNumber
+            .searchQuery: requestParameters.query,
+            .page: requestParameters.pageNumber
         ]
-        if let year {
+        if let year = requestParameters.year {
             parameters[.year] = year
         }
-        if let type {
+        if let type = requestParameters.type {
             parameters[.type] = type.rawValue
         }
         request(type: .get, parameters: parameters) { data, error in

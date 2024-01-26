@@ -10,11 +10,8 @@ import Foundation
 class SearchViewModel {
     
     private var movies: [Movie] = []
-    private var pageNumber: Int = 1
     private var totalResults: Int = 0
-    private var query: String = ""
-    private var year: Int?
-    private var type: MovieType?
+    private var searchRequest = SearchRequest(query: "", pageNumber: 1)
     
     var hasMore: Bool {
         return movies.count < totalResults
@@ -27,8 +24,8 @@ class SearchViewModel {
     }
     
     func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        self.query = query
-        apiService.search(query: query, pageNumber: pageNumber, year: year, type: type) { [weak self] result in
+        searchRequest.query = query
+        apiService.search(requestParameters: searchRequest) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -46,11 +43,12 @@ class SearchViewModel {
             completion(.failure(NSError(domain: "No more movies", code: 0, userInfo: nil)))
             return
         }
-        apiService.search(query: query, pageNumber: pageNumber+1, year: year, type: type) { [weak self] result in
+        let newRequest = SearchRequest(query: searchRequest.query, pageNumber: searchRequest.pageNumber + 1, year: searchRequest.year, type: searchRequest.type)
+        apiService.search(requestParameters: newRequest) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.pageNumber += 1
+                self.searchRequest = newRequest
                 self.movies.append(contentsOf: response.search)
                 completion(.success(response))
             case .failure(let error):
@@ -70,23 +68,23 @@ class SearchViewModel {
     
     func clear() {
         movies.removeAll()
-        pageNumber = 1
+        searchRequest.pageNumber = 1
         totalResults = 0
     }
     
     func getYear() -> Int? {
-        return year
+        return searchRequest.year
     }
     
     func getType() -> MovieType? {
-        return type
+        return searchRequest.type
     }
     
     func setYear(_ year: Int?) {
-        self.year = year
+        searchRequest.year = year
     }
     
     func setType(_ type: MovieType?) {
-        self.type = type
+        searchRequest.type = type
     }
 }

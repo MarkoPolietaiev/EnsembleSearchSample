@@ -22,7 +22,6 @@ extension UIViewController {
     func showErrorToast(_ message: String?) {
         var style = ToastStyle()
         style.messageColor = .white
-        // present the toast with the new style
         var message = message
         if message == nil {
             message = R.string.localizable.errorSomethingWentWrong()

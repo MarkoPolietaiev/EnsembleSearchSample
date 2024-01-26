@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct SearchRequest {
+    var query: String
+    var pageNumber: Int
+    var year: Int?
+    var type: MovieType?
+}
+
 struct SearchResponse: Decodable {
     var search: [Movie]
     var totalResults, response: String
