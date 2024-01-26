@@ -33,6 +33,9 @@
 		61F1D85E2B6369150073E4BD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F1D85D2B6369150073E4BD /* UIViewController+Extension.swift */; };
 		61F1D8602B636A230073E4BD /* ApiErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F1D85F2B636A230073E4BD /* ApiErrors.swift */; };
 		61F1D8622B63703B0073E4BD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61F1D8612B63703B0073E4BD /* Localizable.strings */; };
+		61F1D8662B63791B0073E4BD /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F1D8652B63791B0073E4BD /* NoDataView.swift */; };
+		61F1D8692B6379470073E4BD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F1D8682B6379470073E4BD /* UIView+Extension.swift */; };
+		61F1D86F2B637C500073E4BD /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F1D86E2B637C500073E4BD /* FilterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +83,9 @@
 		61F1D85D2B6369150073E4BD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		61F1D85F2B636A230073E4BD /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
 		61F1D8612B63703B0073E4BD /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		61F1D8652B63791B0073E4BD /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
+		61F1D8682B6379470073E4BD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		61F1D86E2B637C500073E4BD /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,7 @@
 		61A95EAA2B621EF50077C541 /* EnsembleSearchSample */ = {
 			isa = PBXGroup;
 			children = (
+				61F1D8642B63790B0073E4BD /* Components */,
 				61A95EDC2B621F190077C541 /* Resources */,
 				61A95EDB2B621F130077C541 /* Common */,
 				61A95EDE2B621F2F0077C541 /* Modules */,
@@ -183,8 +190,8 @@
 		61A95EDC2B621F190077C541 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				61A95EB42B621EF60077C541 /* Assets.xcassets */,
 				61A95EDD2B621F220077C541 /* Storyboards */,
+				61A95EB42B621EF60077C541 /* Assets.xcassets */,
 				61F1D8612B63703B0073E4BD /* Localizable.strings */,
 			);
 			path = Resources;
@@ -202,6 +209,7 @@
 		61A95EDE2B621F2F0077C541 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				61F1D86B2B637BE20073E4BD /* Filter */,
 				61A95EDF2B621F350077C541 /* Search */,
 			);
 			path = Modules;
@@ -252,8 +260,25 @@
 			children = (
 				61A95EEF2B6223100077C541 /* Data+Extension.swift */,
 				61F1D85D2B6369150073E4BD /* UIViewController+Extension.swift */,
+				61F1D8682B6379470073E4BD /* UIView+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		61F1D8642B63790B0073E4BD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				61F1D8652B63791B0073E4BD /* NoDataView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		61F1D86B2B637BE20073E4BD /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				61F1D86E2B637C500073E4BD /* FilterViewController.swift */,
+			);
+			path = Filter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,6 +428,8 @@
 			files = (
 				61A95EE72B621F9B0077C541 /* ApiModels.swift in Sources */,
 				61F1D85E2B6369150073E4BD /* UIViewController+Extension.swift in Sources */,
+				61F1D8692B6379470073E4BD /* UIView+Extension.swift in Sources */,
+				61F1D86F2B637C500073E4BD /* FilterViewController.swift in Sources */,
 				618308EF2B635ECE0030F5C8 /* SearchResultTableViewCell.swift in Sources */,
 				61A95EEC2B6220820077C541 /* AppConfig.swift in Sources */,
 				61A95EB02B621EF50077C541 /* SearchViewController.swift in Sources */,
@@ -411,6 +438,7 @@
 				61F1D8602B636A230073E4BD /* ApiErrors.swift in Sources */,
 				61A95EAC2B621EF50077C541 /* AppDelegate.swift in Sources */,
 				61A95EE12B621F5F0077C541 /* SearchViewModel.swift in Sources */,
+				61F1D8662B63791B0073E4BD /* NoDataView.swift in Sources */,
 				61A95EE92B621FEF0077C541 /* ApiService.swift in Sources */,
 				61A95EF32B6226DB0077C541 /* JsonManager.swift in Sources */,
 				61A95EAE2B621EF50077C541 /* SceneDelegate.swift in Sources */,

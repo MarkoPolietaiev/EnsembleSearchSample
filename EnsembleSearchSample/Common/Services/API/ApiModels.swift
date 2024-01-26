@@ -21,7 +21,7 @@ struct SearchResponse: Decodable {
 // MARK: - Search
 struct Movie: Decodable {
     var title, year, imdbID: String
-    var type: MovieTypeEnum = .unknown
+    var type: MovieType = .unknown
     var poster: String
 
     enum CodingKeys: String, CodingKey {
@@ -37,14 +37,30 @@ struct Movie: Decodable {
         self.title = try container.decode(String.self, forKey: .title)
         self.year = try container.decode(String.self, forKey: .year)
         self.imdbID = try container.decode(String.self, forKey: .imdbID)
-        self.type = MovieTypeEnum(rawValue: try container.decode(String.self, forKey: .type)) ?? .unknown
+        self.type = MovieType(rawValue: try container.decode(String.self, forKey: .type)) ?? .unknown
         self.poster = try container.decode(String.self, forKey: .poster)
     }
 }
 
-enum MovieTypeEnum: String, Decodable {
+enum MovieType: String, Decodable, CaseIterable {
     case movie
     case series
     case episode
     case unknown
+    case game
+    
+    var localizedValue: String {
+        switch self {
+        case .movie:
+            R.string.localizable.movie()
+        case .series:
+            R.string.localizable.series()
+        case .episode:
+            R.string.localizable.episode()
+        case .game:
+            R.string.localizable.game()
+        case .unknown:
+            R.string.localizable.unknown()
+        }
+    }
 }

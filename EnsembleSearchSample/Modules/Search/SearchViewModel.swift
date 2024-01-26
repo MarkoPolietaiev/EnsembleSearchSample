@@ -13,6 +13,9 @@ class SearchViewModel {
     private var pageNumber: Int = 1
     private var totalResults: Int = 0
     private var query: String = ""
+    private var year: Int?
+    private var type: MovieType?
+    
     var hasMore: Bool {
         return movies.count < totalResults
     }
@@ -25,7 +28,7 @@ class SearchViewModel {
     
     func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         self.query = query
-        apiService.search(query: query, pageNumber: pageNumber, year: nil, type: nil) { [weak self] result in
+        apiService.search(query: query, pageNumber: pageNumber, year: year, type: type) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -43,7 +46,7 @@ class SearchViewModel {
             completion(.failure(NSError(domain: "No more movies", code: 0, userInfo: nil)))
             return
         }
-        apiService.search(query: query, pageNumber: pageNumber+1, year: nil, type: nil) { [weak self] result in
+        apiService.search(query: query, pageNumber: pageNumber+1, year: year, type: type) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -69,5 +72,21 @@ class SearchViewModel {
         movies.removeAll()
         pageNumber = 1
         totalResults = 0
+    }
+    
+    func getYear() -> Int? {
+        return year
+    }
+    
+    func getType() -> MovieType? {
+        return type
+    }
+    
+    func setYear(_ year: Int?) {
+        self.year = year
+    }
+    
+    func setType(_ type: MovieType?) {
+        self.type = type
     }
 }

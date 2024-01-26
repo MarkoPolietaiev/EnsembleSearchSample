@@ -198,7 +198,7 @@ class ApiService {
 }
 
 extension ApiService: ApiServiceProtocol {
-    func search(query: String, pageNumber: Int = 1, year: Int? = nil, type: MovieTypeEnum? = nil, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+    func search(query: String, pageNumber: Int = 1, year: Int? = nil, type: MovieType? = nil, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         var parameters: [ParameterType: Any] = [
             .searchQuery: query,
             .page: pageNumber

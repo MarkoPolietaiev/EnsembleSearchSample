@@ -9,6 +9,16 @@ import UIKit
 import Toast
 
 extension UIViewController {
+    func addOutsideTapToCloseKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func handleTap() {
+        view.endEditing(true)
+    }
+    
     func showErrorToast(_ message: String?) {
         var style = ToastStyle()
         style.messageColor = .white

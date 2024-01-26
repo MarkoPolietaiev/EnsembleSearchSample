@@ -9,3 +9,9 @@
 "error.no.connection" = "No Internet Connection";
 "error.something.went.wrong" = "Something went wrong";
 "error.request.timed.out" = "Request timed out";
+
+"movie" = "Movie";
+"series" = "Series";
+"episode" = "Episode";
+"unknown" = "Unknown";
+"game" = "Game";

@@ -11,6 +11,7 @@ class SearchViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var filterButton: UIButton!
     
     private var viewModel: SearchViewModel?
     private let debouncer = Debouncer(interval: 0.25)
@@ -19,12 +20,26 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         setupViewModel()
         setupTableView()
+        addOutsideTapToCloseKeyboard()
+    }
+    
+    @IBAction func filterButtonPressed(_ sender: Any) {
+        view.endEditing(true)
+        guard let vc = R.storyboard.main.filterViewController() else { return }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .coverVertical
+        vc.year = viewModel?.getYear()
+        vc.type = viewModel?.getType()
+        vc.delegate = self
+        present(vc, animated: true)
     }
 }
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.moviesCount() ?? 0
+        let count = viewModel?.moviesCount() ?? 0
+        count == 0 ? tableView.addNoDataView() : tableView.removeNoDataView()
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,7 +53,7 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40.0
+        return 100.0
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -103,6 +118,17 @@ private extension SearchViewController {
             self.tableView.reloadData()
         case .failure(let error):
             handleAPIError(error)
+        }
+    }
+}
+
+extension SearchViewController: FilterViewControllerDelegate {
+    func didSaveNewFilter(year: Int?, type: MovieType?) {
+        viewModel?.setYear(year)
+        viewModel?.setType(type)
+        viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
+            guard let self = self else { return }
+            self.handleAPIResult(result: result)
         }
     }
 }
