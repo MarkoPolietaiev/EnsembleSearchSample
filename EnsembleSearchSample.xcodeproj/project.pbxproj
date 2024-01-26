@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		610387C32B639FB2005D62A6 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610387C22B639FB2005D62A6 /* UIImage+Extension.swift */; };
 		618308EF2B635ECE0030F5C8 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618308ED2B635ECE0030F5C8 /* SearchResultTableViewCell.swift */; };
 		618308F02B635ECE0030F5C8 /* SearchResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 618308EE2B635ECE0030F5C8 /* SearchResultTableViewCell.xib */; };
 		618308F32B6364370030F5C8 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618308F22B6364370030F5C8 /* Debouncer.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		610387C22B639FB2005D62A6 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		618308ED2B635ECE0030F5C8 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		618308EE2B635ECE0030F5C8 /* SearchResultTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultTableViewCell.xib; sourceTree = "<group>"; };
 		618308F22B6364370030F5C8 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				61A95EEF2B6223100077C541 /* Data+Extension.swift */,
 				61F1D85D2B6369150073E4BD /* UIViewController+Extension.swift */,
 				61F1D8682B6379470073E4BD /* UIView+Extension.swift */,
+				610387C22B639FB2005D62A6 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				61A95EE72B621F9B0077C541 /* ApiModels.swift in Sources */,
 				61F1D85E2B6369150073E4BD /* UIViewController+Extension.swift in Sources */,
 				61F1D8692B6379470073E4BD /* UIView+Extension.swift in Sources */,
+				610387C32B639FB2005D62A6 /* UIImage+Extension.swift in Sources */,
 				61F1D86F2B637C500073E4BD /* FilterViewController.swift in Sources */,
 				618308EF2B635ECE0030F5C8 /* SearchResultTableViewCell.swift in Sources */,
 				61A95EEC2B6220820077C541 /* AppConfig.swift in Sources */,

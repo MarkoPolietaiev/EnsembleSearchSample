@@ -26,13 +26,16 @@ class SearchViewModel {
     func search(query: String = "", isPagination: Bool = false, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         var request = searchRequest
         if isPagination {
+            //if pagination, we need to check if there are more movies to load
             guard movies.count < totalResults else {
                 completion(.failure(NSError(domain: "No more movies", code: 0, userInfo: nil)))
                 return
             }
+            // if there are more movies to load, we need to increment page number
             request.pageNumber += 1
         } else {
-            request.query = query
+            // if we are not paginating, we need to reset page number and set new query
+            request.setQuery(query)
             request.pageNumber = 1
         }
         
@@ -40,6 +43,7 @@ class SearchViewModel {
             guard let self = self else { return }
             switch result {
             case .success(let response):
+                // update search request parameters
                 self.searchRequest = request
                 if isPagination {
                     self.movies.append(contentsOf: response.search)

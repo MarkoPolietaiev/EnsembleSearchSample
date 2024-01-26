@@ -7,15 +7,15 @@
 
 import UIKit
 import Toast
+import SDWebImage
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         setupToasts()
+        setupSdImage()
         return true
     }
 
@@ -39,6 +39,14 @@ private extension AppDelegate {
         ToastManager.shared.isTapToDismissEnabled = true
         ToastManager.shared.isQueueEnabled = true
         ToastManager.shared.duration = 2.0
+    }
+    
+    func setupSdImage() {
+        SDImageCache.shared.config.maxDiskAge = 3600 * 24 * 7 // 1 Week
+        SDImageCache.shared.config.maxMemoryCost = 1024 * 1024 * 4 * 20 // 20 images (1024 * 1024 pixels)
+        SDImageCache.shared.config.shouldCacheImagesInMemory = false // Disable memory cache, may cause cell-reusing flash because disk query is async
+        SDImageCache.shared.config.shouldUseWeakMemoryCache = false // Disable weak cache, may see blank when return from background because memory cache is purged under pressure
+        SDImageCache.shared.config.diskCacheReadingOptions = .mappedIfSafe // Use map for disk cache query
     }
 }
 

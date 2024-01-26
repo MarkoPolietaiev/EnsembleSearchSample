@@ -8,10 +8,14 @@
 import Foundation
 
 struct SearchRequest {
-    var query: String
+    private(set) var query: String
     var pageNumber: Int
     var year: Int?
     var type: MovieType?
+    
+    mutating func setQuery(_ query: String) {
+        self.query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 struct SearchResponse: Decodable {

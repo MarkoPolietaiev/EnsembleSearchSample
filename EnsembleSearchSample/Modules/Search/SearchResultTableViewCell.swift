@@ -32,7 +32,7 @@ class SearchResultTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         typeLabel.text = movie.type.localizedValue
         yearLabel.text = movie.year
-        posterImageView.sd_setImage(with: URL(string: movie.poster), placeholderImage: UIImage(systemName: "photo.fill"))
+        posterImageView.sd_setImage(with: URL(string: movie.poster), placeholderImage: UIImage.posterPlaceholderImage)
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
