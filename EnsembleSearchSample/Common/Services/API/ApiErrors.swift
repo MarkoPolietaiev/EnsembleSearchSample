@@ -11,6 +11,7 @@ enum APIError: Error {
     case errorResponse(message: String)
     case noConnection
     case timeout
+    //add more required errors
 }
 
 struct ErrorResponse: Decodable {

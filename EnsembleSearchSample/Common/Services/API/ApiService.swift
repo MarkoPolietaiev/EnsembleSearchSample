@@ -114,7 +114,7 @@ class ApiService {
                             
                             DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
                                 // Check if the task has been canceled before retrying
-                                if task?.state != .completed && task?.state != .canceling {
+                                if task?.state != .completed || task?.state != .canceling {
                                     _ = self.performRequest(request: request, maxRetries: maxRetries, currentRetry: currentRetry + 1, completion: completion)
                                 }
                             }

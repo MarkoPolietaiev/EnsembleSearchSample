@@ -43,7 +43,13 @@ extension UIView {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         containerView.addSubview(activityIndicator)
+        containerView.isHidden = true
         addSubview(containerView)
+        
+        // add delay for the loader so it doesn't show for fast requests
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak containerView] in
+            containerView?.isHidden = false
+        }
         
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
