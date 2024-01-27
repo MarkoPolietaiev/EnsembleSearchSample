@@ -2,38 +2,34 @@
 //  EnsembleSearchSampleTests.swift
 //  EnsembleSearchSampleTests
 //
-//  Created by Marko Polietaiev on 2024-01-24.
+//  Created by Marko Polietaiev on 2024-01-27.
 //
 
 import XCTest
-@testable import EnsembleSearchSample
 
 final class EnsembleSearchSampleTests: XCTestCase {
-    
-    var mockApiService: MockApiService?
-    
-    override func setUp() {
-        mockApiService = MockApiService()
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        mockApiService = nil
-        super.tearDown()
-    }
 
-    func testFetchData() {
-        let expectation = self.expectation(description: "Fetch movie data")
-        mockApiService?.search(requestParameters: SearchRequest(query: "Star Wars", pageNumber: 1)) { result in
-            switch result {
-            case .success(let response):
-                XCTAssertEqual(response.search.first?.title, "Star Wars: Episode IV - A New Hope")
-                XCTAssertEqual(response.search.first?.type, MovieType.movie)
-            case .failure(let error):
-                XCTFail("Error: \(error.localizedDescription)")
-            }
-            expectation.fulfill()
+    func testPrettyPrintedJson() throws {
+        let jsonString = """
+                    {
+                        "Search": [
+                            {
+                                "Title": "Star Wars: Episode IV - A New Hope",
+                                "Year": "1977",
+                                "imdbID": "tt0076759",
+                                "Type": "movie",
+                                "Poster": "https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg"
+                            }
+                        ],
+                        "totalResults": "860",
+                        "Response": "True"
+                    }
+                """
+        let expectedString = "{\n  \"totalResults\" : \"860\",\n  \"Response\" : \"True\",\n  \"Search\" : [\n    {\n      \"Year\" : \"1977\",\n      \"Type\" : \"movie\",\n      \"Title\" : \"Star Wars: Episode IV - A New Hope\",\n      \"imdbID\" : \"tt0076759\",\n      \"Poster\" : \"https:\\/\\/m.media-amazon.com\\/images\\/M\\/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg\"\n    }\n  ]\n}"
+        if let data = jsonString.data(using: .utf8) {
+            XCTAssertEqual(data.prettyPrintedJSONString ?? "", expectedString)
+        } else {
+            XCTFail("Data error")
         }
-        wait(for: [expectation], timeout: 5.0)
     }
 }
