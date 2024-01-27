@@ -23,7 +23,7 @@ class SearchViewModel {
         self.apiService = apiService
     }
     
-    func search(query: String = "", isPagination: Bool = false, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+    func search(query: String = "", isPagination: Bool = false, completion: @escaping (Result<SearchViewModelResponse, Error>) -> Void) {
         var request = searchRequest
         if isPagination {
             //if pagination, we need to check if there are more movies to load
@@ -51,7 +51,7 @@ class SearchViewModel {
                     self.movies = response.search
                     self.totalResults = Int(response.totalResults) ?? 0
                 }
-                completion(.success(response))
+                completion(.success(SearchViewModelResponse(rowsAdded: response.search.count, isPagination: isPagination)))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -88,4 +88,9 @@ class SearchViewModel {
     func setType(_ type: MovieType?) {
         searchRequest.type = type
     }
+}
+
+struct SearchViewModelResponse {
+    var rowsAdded: Int
+    var isPagination: Bool
 }

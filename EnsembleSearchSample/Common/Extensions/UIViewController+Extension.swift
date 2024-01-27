@@ -11,7 +11,6 @@ import Toast
 extension UIViewController {
     func addOutsideTapToCloseKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
     

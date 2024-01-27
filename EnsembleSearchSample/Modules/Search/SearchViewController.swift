@@ -131,12 +131,20 @@ private extension SearchViewController {
         tableView.dataSource = self
     }
     
-    func handleAPIResult(result: Result<SearchResponse, Error>) {
+    func handleAPIResult(result: Result<SearchViewModelResponse, Error>) {
         tableView.removeActivityIndicator()
         switch result {
-        case .success(_):
-            // Handle successful result
-            self.tableView.reloadData()
+        case .success(let response):
+            if response.isPagination {
+                let moviesCount = viewModel?.moviesCount() ?? 0
+                var indexPaths: [IndexPath] = []
+                for i in moviesCount-response.rowsAdded...moviesCount-1 {
+                    indexPaths.append(IndexPath(row: i, section: 0))
+                }
+                self.tableView.insertRows(at: indexPaths, with: .fade)
+            } else {
+                self.tableView.reloadData()
+            }
         case .failure(let error):
             handleAPIError(error)
         }
