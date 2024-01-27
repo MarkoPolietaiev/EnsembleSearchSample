@@ -18,7 +18,7 @@ struct SearchRequest {
     }
 }
 
-struct SearchResponse: Decodable {
+struct SearchResponse: Decodable, Equatable {
     var search: [Movie]
     var totalResults, response: String
 
@@ -27,10 +27,20 @@ struct SearchResponse: Decodable {
         case totalResults
         case response = "Response"
     }
+    
+    init(search: [Movie], totalResults: String, response: String) {
+        self.search = search
+        self.totalResults = totalResults
+        self.response = response
+    }
+    
+    static func == (lhs: SearchResponse, rhs: SearchResponse) -> Bool {
+        return lhs.search == rhs.search && lhs.totalResults == rhs.totalResults && lhs.response == rhs.response
+    }
 }
 
 // MARK: - Search
-struct Movie: Decodable {
+struct Movie: Decodable, Equatable {
     var title, year, imdbID: String
     var type: MovieType = .unknown
     var poster: String
@@ -51,6 +61,20 @@ struct Movie: Decodable {
         self.type = MovieType(rawValue: try container.decode(String.self, forKey: .type)) ?? .unknown
         self.poster = try container.decode(String.self, forKey: .poster)
     }
+    
+    init(title: String, year: String, imdbID: String, type: MovieType, poster: String) {
+        self.title = title
+        self.year = year
+        self.imdbID = imdbID
+        self.type = type
+        self.poster = poster
+    }
+    
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.title == rhs.title && lhs.year == rhs.year && lhs.imdbID == rhs.imdbID && lhs.type == rhs.type && lhs.poster == rhs.poster
+    }
+    
+    static let `default` = Movie(title: "Star Wars", year: "2000", imdbID: "", type: .unknown, poster: "")
 }
 
 enum MovieType: String, Decodable, CaseIterable {

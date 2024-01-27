@@ -13,6 +13,7 @@ class SearchViewModel {
     private var totalResults: Int = 0
     private var searchRequest = SearchRequest(query: "", pageNumber: 1)
     
+    //used to check if pagination is possible to avoid unnecessary requests
     var hasMore: Bool {
         return movies.count < totalResults
     }
