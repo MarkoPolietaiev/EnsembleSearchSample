@@ -13,6 +13,8 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterButton: UIButton!
     
+    private let refreshControl = UIRefreshControl()
+    
     private var viewModel: SearchViewModel?
     private let debouncer = Debouncer(interval: 0.25)
     
@@ -79,12 +81,7 @@ extension SearchViewController: UITableViewDelegate {
 // MARK: SearchViewModelDelegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        clearTable()
-        tableView.addActivityIndicator()
-        viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
-            guard let self = self else { return }
-            self.handleAPIResult(result: result)
-        }
+        freshSearch()
         view.endEditing(true)
     }
     
@@ -107,14 +104,7 @@ extension SearchViewController: UISearchBarDelegate {
         }
         // add debounce to avoid multiple requests
         debouncer.debounce { [weak self] in
-            DispatchQueue.main.async {
-                self?.clearTable()
-                self?.tableView.addActivityIndicator()
-            }
-            self?.viewModel?.search(query: searchText) { [weak self] result in
-                guard let self = self else { return }
-                self.handleAPIResult(result: result)
-            }
+            self?.freshSearch()
         }
     }
 }
@@ -129,6 +119,20 @@ private extension SearchViewController {
         tableView.register(R.nib.searchResultTableViewCell)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refreshControl.attributedTitle = NSAttributedString(string: R.string.localizable.pullToRefresh())
+        refreshControl.addTarget(self, action: #selector(self.freshSearch(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+    
+    @objc func freshSearch(_ sender: AnyObject? = nil) {
+        clearTable()
+        tableView.addActivityIndicator()
+        viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
+            guard let self = self else { return }
+            self.refreshControl.endRefreshing()
+            self.handleAPIResult(result: result)
+        }
     }
     
     func handleAPIResult(result: Result<SearchViewModelResponse, Error>) {
@@ -136,6 +140,7 @@ private extension SearchViewController {
         switch result {
         case .success(let response):
             if response.isPagination {
+                // add new rows instead of reloading all table
                 let moviesCount = viewModel?.moviesCount() ?? 0
                 var indexPaths: [IndexPath] = []
                 for i in moviesCount-response.rowsAdded...moviesCount-1 {
@@ -169,11 +174,6 @@ extension SearchViewController: FilterViewControllerDelegate {
     func didSaveNewFilter(year: Int?, type: MovieType?) {
         viewModel?.setYear(year)
         viewModel?.setType(type)
-        clearTable()
-        tableView.addActivityIndicator()
-        viewModel?.search(query: searchBar.text ?? "") { [weak self] result in
-            guard let self = self else { return }
-            self.handleAPIResult(result: result)
-        }
+        freshSearch()
     }
 }

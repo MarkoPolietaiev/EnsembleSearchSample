@@ -92,6 +92,6 @@ class SearchViewModel {
 }
 
 struct SearchViewModelResponse {
-    var rowsAdded: Int
+    var rowsAdded: Int // used to insert table rows on pagination
     var isPagination: Bool
 }

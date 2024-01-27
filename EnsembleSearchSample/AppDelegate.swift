@@ -39,6 +39,7 @@ private extension AppDelegate {
         ToastManager.shared.isTapToDismissEnabled = true
         ToastManager.shared.isQueueEnabled = true
         ToastManager.shared.duration = 2.0
+        ToastManager.shared.position = .center
     }
     
     func setupSdImage() {

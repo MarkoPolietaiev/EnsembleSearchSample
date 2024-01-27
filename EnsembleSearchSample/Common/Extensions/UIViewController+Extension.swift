@@ -19,13 +19,11 @@ extension UIViewController {
     }
     
     func showErrorToast(_ message: String?) {
-        var style = ToastStyle()
-        style.messageColor = .white
         var message = message
         if message == nil {
             message = R.string.localizable.errorSomethingWentWrong()
         }
-        self.view.makeToast(message, point: CGPoint(x: view.center.x, y: view.frame.maxY - 160), title: nil, image: nil, completion: nil)
+        self.view.makeToast(message)
     }
     
     func handleAPIError(_ error: Error) {

@@ -15,3 +15,6 @@
 "episode" = "Episode";
 "unknown" = "Unknown";
 "game" = "Game";
+
+"pull.to.refresh" = "Pull to refresh";
+"no.search.results" = "No search results 😢";

@@ -11,7 +11,7 @@ class NoDataView: UIView {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "No search results 😢"
+        label.text = R.string.localizable.noSearchResults()
         label.textColor = .gray
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
