@@ -135,7 +135,7 @@ private extension SearchViewController {
         }
     }
     
-    func handleAPIResult(result: Result<SearchViewModelResponse, Error>) {
+    func handleAPIResult(result: Result<SearchResultUpdate, Error>) {
         tableView.removeActivityIndicator()
         switch result {
         case .success(let response):

@@ -30,7 +30,7 @@ class JsonManager {
     }
 
     /// Decode a JSON.
-    /// ```
+    /// ``` swift
     /// JsonManager.decode(Object.self, data: Data())
     /// ```
     /// - Parameters:
@@ -61,11 +61,11 @@ class JsonManager {
     }
 
     /// Encode a JSON.
-    /// ```
+    /// ``` swift
     /// JsonManager.encode(Object.self, dateEncodingStrategy: .formatted(.iso8601Full))
     /// ```
     /// - Parameters:
-    ///    - outputFormatting: set to outputFormatting by default.
+    ///    - outputFormatting: set to [.sortedKeys] by default.
     static func encode<T>(_ value: T, outputFormatting: JSONEncoder.OutputFormatting = [.sortedKeys]) throws -> Data where T : Encodable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatting

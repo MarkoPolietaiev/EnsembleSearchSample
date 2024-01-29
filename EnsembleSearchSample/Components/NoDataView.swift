@@ -7,6 +7,18 @@
 
 import UIKit
 
+/// NoDataView is a subclass of UIView that is used to display a message when there is no data to display.
+///
+/// This view can be used to display custom messages to the user.
+/// It supports the following features:
+/// - Customizable message
+///
+/// Example usage:
+/// ```swift
+/// let noDataView = NoDataView()
+/// noDataView.messageLabel.text = "No data to display"
+/// tableView.backgroundView = noDataView
+/// ```
 class NoDataView: UIView {
     
     let messageLabel: UILabel = {

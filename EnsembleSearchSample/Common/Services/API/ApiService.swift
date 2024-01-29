@@ -8,6 +8,7 @@
 import Foundation
 import Network
 
+/// Service class responsible for handling API requests.
 class ApiService {
     
     private let baseUrl: String = AppConfig.apiBaseUrl
@@ -43,6 +44,8 @@ class ApiService {
     }
     
     private var activeTasks: [URLSessionDataTask] = []
+    
+    // MARK: - Request Handling
     
     private func request(type: RequestType, endpoint: EndpointType? = nil, parameters: [ParameterType: Any] = [:], contentType: ContentType = .json, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = baseUrl + (endpoint?.rawValue ?? "")
@@ -145,20 +148,8 @@ class ApiService {
         }
     }
 
+    // MARK: - Request Cancellation
     
-    private func convertParametersDictionary(originalDict: [ParameterType: Any]) -> [String: Any] {
-        var newDictionary: [String: Any] = [:]
-
-        for (key, value) in originalDict {
-            // Convert the enum key to its raw value (String)
-            let stringKey = key.rawValue
-            // Add the entry to the new dictionary
-            newDictionary[stringKey] = value
-        }
-
-        return newDictionary
-    }
-
     // Cancel a specific request
     private func cancelRequest(_ task: URLSessionDataTask) {
         if let index = activeTasks.firstIndex(of: task) {
@@ -174,6 +165,8 @@ class ApiService {
         activeTasks.forEach { $0.cancel() }
         activeTasks.removeAll()
     }
+    
+    // MARK: - Network Connection
     
     private func hasInternetConnection() -> Bool {
         let monitor = NWPathMonitor()
@@ -197,7 +190,15 @@ class ApiService {
     }
 }
 
+// MARK: - Protocol Conformance
 extension ApiService: ApiServiceProtocol {
+    
+    // MARK: - Search API
+    /// Initiates a search API request with specified parameters.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An object containing parameters for the search request.
+    ///   - completion: A closure to be executed once the search request is completed.
     func search(requestParameters: SearchRequest, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         var parameters: [ParameterType: Any] = [
             .searchQuery: requestParameters.query,
@@ -209,18 +210,24 @@ extension ApiService: ApiServiceProtocol {
         if let type = requestParameters.type {
             parameters[.type] = type.rawValue
         }
+        
+        // Initiate a GET request with specified parameters
         request(type: .get, parameters: parameters) { data, error in
             if let error {
+                // Handle error in case of network issues or request failure
                 completion(.failure(error))
             } else if let data = data {
                 do {
+                    // Decode the JSON response into a SearchResponse object
                     let response = try JsonManager.decode(SearchResponse.self, from: data)
                     completion(.success(response))
                 } catch {
                     do {
+                        // Attempt to decode the error response in case of API-specific error
                         let errorResponse = try JsonManager.decode(ErrorResponse.self, from: data)
                         completion(.failure(APIError.errorResponse(message: errorResponse.error)))
                     } catch {
+                        // Failed to decode both response and error, propagate the decoding error
                         completion(.failure(error))
                     }
                 }

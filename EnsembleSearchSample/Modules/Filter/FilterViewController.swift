@@ -7,11 +7,16 @@
 
 import UIKit
 
+/// Protocol for the delegate to handle filter changes in the FilterViewController.
 protocol FilterViewControllerDelegate: AnyObject {
+    /// Notifies the delegate when a new filter is saved.
     func didSaveNewFilter(year: Int?, type: MovieType?)
 }
 
+/// View controller for displaying and managing filters.
 class FilterViewController: UIViewController {
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var gestureView: UIView!
     @IBOutlet weak var backgroundView: UIView!
@@ -22,6 +27,8 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var yearSelectionImageView: UIImageView!
     @IBOutlet weak var typePicker: UIPickerView!
     @IBOutlet weak var typeSelectionImageView: UIImageView!
+    
+    // MARK: - Properties
     
     private var panGestureRecognizer: UIPanGestureRecognizer?
     private var originalPosition: CGPoint?
@@ -39,7 +46,9 @@ class FilterViewController: UIViewController {
     
     var year: Int?
     var type: MovieType?
-
+    
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -63,6 +72,8 @@ class FilterViewController: UIViewController {
         super.viewDidLayoutSubviews()
         containerView.roundCorners([.topLeft, .topRight], radius: 16)
     }
+    
+    // MARK: - Actions
     
     @IBAction func yearButtonPressed(_ sender: Any) {
         if year != nil {
@@ -91,6 +102,8 @@ class FilterViewController: UIViewController {
         dismiss(animated: true)
     }
 }
+
+// MARK: - Private Extensions
 
 private extension FilterViewController {
     func setupView() {
@@ -174,6 +187,8 @@ private extension FilterViewController {
     }
 }
 
+// MARK: - UIPickerViewDataSource Extension
+
 extension FilterViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -190,6 +205,8 @@ extension FilterViewController: UIPickerViewDataSource {
         }
     }
 }
+
+// MARK: - UIPickerViewDelegate Extension
 
 extension FilterViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

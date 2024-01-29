@@ -8,12 +8,14 @@
 import UIKit
 import SDWebImage
 
+/// Protocol for the delegate to handle button tap events in the SearchResultTableViewCell.
 protocol SearchResultTableViewCellDelegate: AnyObject {
+    /// Notifies the delegate when the button in the cell is tapped with the associated movie.
     func didTapButton(movie: Movie)
 }
 
 class SearchResultTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var typeLabel: UILabel!
@@ -27,6 +29,9 @@ class SearchResultTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
+    /// Configures the cell with the provided movie information.
+    ///
+    /// - Parameter movie: The movie object to populate the cell.
     func configure(with movie: Movie) {
         self.movie = movie
         titleLabel.text = movie.title
